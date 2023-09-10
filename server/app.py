@@ -46,7 +46,7 @@ def game_by_id(id):
     game_dict = {
         "title": game.title,
         "genre": game.genre, 
-        "platform": game.platfrom, 
+        "platform": game.platform, 
         "price": game.price
     }
 
@@ -54,6 +54,8 @@ def game_by_id(id):
         game_dict,
         200
     )
+
+    return response 
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

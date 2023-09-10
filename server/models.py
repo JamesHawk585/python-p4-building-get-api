@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+import ipdb
 
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
@@ -9,6 +10,7 @@ db = SQLAlchemy(metadata=metadata)
 
 class Game(db.Model):
     __tablename__ = 'games'
+    serialize_rules = ('-reviews.game',)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, unique=True)
@@ -25,6 +27,7 @@ class Game(db.Model):
 
 class Review(db.Model):
     __tablename__ = 'reviews'
+    serialize_rules = ('-game.reviews', '-user.reviews',)
     
     id = db.Column(db.Integer, primary_key=True)
     score = db.Column(db.Integer)
@@ -40,6 +43,7 @@ class Review(db.Model):
 
 class User(db.Model):
     __tablename__ = 'users'
+    serialize_rules = ('-reviews.user',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -48,3 +52,5 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     reviews = db.relationship('Review', backref='user')
+
+ipdb.set_trace()
