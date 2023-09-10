@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 from flask import Flask, jsonify, make_response
+# jsonify is a method in Flask that serializes its arguments as JSON and returns a Response object. It can accept lists or dictionaries as arguments. Unfortunately, it will not accept models as arguments (darn!).
 from flask_sqlalchemy import SQLAlchemy
+# pp.json.compact = False is a configuration that has JSON responses print on separate lines with indentation. This adds some overhead, but if human eyes will be looking at your API, it's always good to have this set to True.
 from flask_migrate import Migrate
 
 from models import db, User, Review, Game
@@ -34,6 +36,8 @@ def games():
     response = make_response(
         jsonify(games)
     ) 
+
+    return response
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
